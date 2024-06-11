@@ -15,6 +15,7 @@ include 'header.php';
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>No.</th> <!-- Kolom tambahan untuk nomor urut -->
                 <th>ID</th>
                 <th>Old Brand</th>
                 <th>Old Model</th>
@@ -24,8 +25,11 @@ include 'header.php';
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($history as $entry): ?>
+            <?php 
+            $counter = 1; // Inisialisasi variabel counter untuk nomor urut
+            foreach ($history as $entry): ?>
             <tr>
+                <td><?php echo $counter; ?></td> <!-- Tampilkan nomor urut -->
                 <td><?php echo htmlspecialchars($entry['id']); ?></td>
                 <td><?php echo htmlspecialchars($entry['old_brand']); ?></td>
                 <td><?php echo htmlspecialchars($entry['old_model']); ?></td>
@@ -33,7 +37,9 @@ include 'header.php';
                 <td><?php echo htmlspecialchars($entry['old_purchase_date']); ?></td>
                 <td><?php echo htmlspecialchars($entry['updated_at']); ?></td>
             </tr>
-            <?php endforeach; ?>
+            <?php 
+            $counter++; // Increment counter setiap kali baris data selesai diproses
+            endforeach; ?>
         </tbody>
     </table>
 </div>

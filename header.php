@@ -37,6 +37,90 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room1Collapse" aria-expanded="true" aria-controls="room1Collapse">
+                    <i class="fas fa-fw fa-door-open"></i>
+                    <span>Room 1</span>
+                </a>
+                <div id="room1Collapse" class="collapse" aria-labelledby="headingRoom1" data-parent="#accordionSidebar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="room1_laptop.php">
+                                <i class="fas fa-fw fa-laptop"></i>
+                                <span>Laptop</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="room1_furniture.php">
+                                <i class="fas fa-fw fa-couch"></i>
+                                <span>Furniture</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="room1_electronics.php">
+                                <i class="fas fa-fw fa-plug"></i>
+                                <span>Electronics</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room2Collapse" aria-expanded="true" aria-controls="room2Collapse">
+                    <i class="fas fa-fw fa-door-open"></i>
+                    <span>Room 2</span>
+                </a>
+                <div id="room2Collapse" class="collapse" aria-labelledby="headingRoom2" data-parent="#accordionSidebar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="room2_laptop.php">
+                                <i class="fas fa-fw fa-laptop"></i>
+                                <span>Laptop</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="room2_furniture.php">
+                                <i class="fas fa-fw fa-couch"></i>
+                                <span>Furniture</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="room2_electronics.php">
+                                <i class="fas fa-fw fa-plug"></i>
+                                <span>Electronics</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room3Collapse" aria-expanded="true" aria-controls="room3Collapse">
+                    <i class="fas fa-fw fa-door-open"></i>
+                    <span>Room 3</span>
+                </a>
+                <div id="room3Collapse" class="collapse" aria-labelledby="headingRoom3" data-parent="#accordionSidebar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="room3_laptop.php">
+                                <i class="fas fa-fw fa-laptop"></i>
+                                <span>Laptop</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="room3_furniture.php">
+                                <i class="fas fa-fw fa-couch"></i>
+                                <span>Furniture</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="room3_electronics.php">
+                                <i class="fas fa-fw fa-plug"></i>
+                                <span>Electronics</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
         </ul>
         <!-- End of Sidebar -->
 

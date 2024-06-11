@@ -31,11 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $allImages = array_merge($existingImages, $uploadedImages);
     $imagesJson = json_encode($allImages);
 
-    // Simpan data lama ke tabel update_history
-    $sql = "INSERT INTO update_history (laptop_id, old_brand, old_model, old_serial_number, old_purchase_date) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id, $laptop['brand'], $laptop['model'], $laptop['serial_number'], $laptop['purchase_date']]);
-
     $query = $pdo->prepare("UPDATE laptops SET brand = ?, model = ?, serial_number = ?, purchase_date = ?, images = ? WHERE id = ?");
     $query->execute([$brand, $model, $serial_number, $purchase_date, $imagesJson, $id]);
     header("Location: detail.php?id=$id");
@@ -82,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <div class="form-group">
         <label for="images">Upload New Images</label>
-        <input type="file" class="form-control-file" id="images" name="images[]" multiple onchange="previewImages(this)">
+        <input type="file" class="form-control-file" id="images" name="images[]" multiple>
         <div id="image_preview" class="row mt-3"></div>
     </div>
     <button type="submit" class="btn btn-primary">Update</button>
@@ -91,29 +86,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'footer.php'; ?>
 
 <script>
+let allImages = [];
+
 function previewImages(input) {
-    var preview = document.querySelector('#image_preview');
-    if (!preview.hasChildNodes()) {
-        preview.innerHTML = '';
-    }
-
+    let preview = document.querySelector('#image_preview');
+    
     if (input.files) {
-        [].forEach.call(input.files, readAndPreview);
-    }
+        [].forEach.call(input.files, function(file) {
+            if (!allImages.includes(file)) {
+                allImages.push(file);
 
-    function readAndPreview(file) {
-        if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
-            return alert(file.name + " is not an image");
-        }
+                if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    return alert(file.name + " is not an image");
+                }
 
-        var reader = new FileReader();
-        reader.addEventListener("load", function() {
-            var image = new Image();
-            image.src = this.result;
-            image.className = "img-thumbnail col-md-3";
-            preview.appendChild(image);
+                let reader = new FileReader();
+                reader.addEventListener("load", function() {
+                    let image = new Image();
+                    image.src = this.result;
+                    image.className = "img-thumbnail col-md-3";
+                    preview.appendChild(image);
+                });
+                reader.readAsDataURL(file);
+            }
         });
-        reader.readAsDataURL(file);
     }
 }
 
