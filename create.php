@@ -6,10 +6,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $model = $_POST['model'];
     $serial_number = $_POST['serial_number'];
     $purchase_date = $_POST['purchase_date'];
+    $images = $_POST['images'];
 
-    $sql = "INSERT INTO laptops (brand, model, serial_number, purchase_date) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO laptops (brand, model, serial_number, purchase_date, images) VALUES (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$brand, $model, $serial_number, $purchase_date]);
+    $stmt->execute([$brand, $model, $serial_number, $purchase_date, $images]);
 
     header("Location: index.php");
 }
@@ -33,6 +34,10 @@ include 'header.php';
     <div class="form-group">
         <label>Purchase Date</label>
         <input type="date" name="purchase_date" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Images</label>
+        <input type="file" name="images" class="form-control" multiple>
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
 </form>

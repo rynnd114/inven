@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $model = $_POST['model'];
     $serial_number = $_POST['serial_number'];
     $purchase_date = $_POST['purchase_date'];
+    $keterangan = $_POST['keterangan'];
 
     // Handle file uploads
     $uploadedImages = [];
@@ -27,12 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Merge existing and new images
+    // Merge existing and new images
     $existingImages = json_decode($laptop['images'] ?? '[]', true);
+    if (!is_array($existingImages)) {
+        $existingImages = [];
+    }
     $allImages = array_merge($existingImages, $uploadedImages);
-    $imagesJson = json_encode($allImages);
+    $imagesJson = !empty($allImages) ? json_encode($allImages) : $laptop['images'];
 
-    $query = $pdo->prepare("UPDATE laptops SET brand = ?, model = ?, serial_number = ?, purchase_date = ?, images = ? WHERE id = ?");
-    $query->execute([$brand, $model, $serial_number, $purchase_date, $imagesJson, $id]);
+
+    $sql = "INSERT INTO update_history (laptop_id, old_brand, old_model, old_serial_number, old_purchase_date, images, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id, $laptop['brand'], $laptop['model'], $laptop['serial_number'], $laptop['purchase_date'], $laptop['images'], $laptop['keterangan']]);
+
+    $query = $pdo->prepare("UPDATE laptops SET brand = ?, model = ?, serial_number = ?, purchase_date = ?, images = ?, keterangan = ? WHERE id = ?");
+    $query->execute([$brand, $model, $serial_number, $purchase_date, $imagesJson,  $keterangan, $id]);
+
     header("Location: detail.php?id=$id");
     exit;
 }
@@ -59,22 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="date" class="form-control" id="purchase_date" name="purchase_date" value="<?php echo htmlspecialchars($laptop['purchase_date']); ?>" required>
     </div>
     <div class="form-group">
-        <label for="existing_images">Existing Images</label>
-        <div id="existing_images" class="row">
-            <?php
-            $existingImages = json_decode($laptop['images'] ?? '[]', true);
-            if ($existingImages) {
-                foreach ($existingImages as $image) {
-                    echo '<div class="col-md-3 img-preview">';
-                    echo '<img src="uploads/' . htmlspecialchars($image) . '" class="img-thumbnail">';
-                    echo '</div>';
-                }
-            } else {
-                echo '<p>No existing images.</p>';
-            }
-            ?>
-        </div>
-    </div>
+        <label for="keterangan">Keterangan</label>
+        <input type="text" class="form-control" id="keterangan" name="keterangan" value="<?php echo htmlspecialchars($laptop['keterangan']); ?>" required>    </div>
     <div class="form-group">
         <label for="images">Upload New Images</label>
         <input type="file" class="form-control-file" id="images" name="images[]" multiple>
@@ -84,36 +81,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </form>
 
 <?php include 'footer.php'; ?>
-
-<script>
-let allImages = [];
-
-function previewImages(input) {
-    let preview = document.querySelector('#image_preview');
-    
-    if (input.files) {
-        [].forEach.call(input.files, function(file) {
-            if (!allImages.includes(file)) {
-                allImages.push(file);
-
-                if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
-                    return alert(file.name + " is not an image");
-                }
-
-                let reader = new FileReader();
-                reader.addEventListener("load", function() {
-                    let image = new Image();
-                    image.src = this.result;
-                    image.className = "img-thumbnail col-md-3";
-                    preview.appendChild(image);
-                });
-                reader.readAsDataURL(file);
-            }
-        });
-    }
-}
-
-document.querySelector('#images').addEventListener("change", function() {
-    previewImages(this);
-});
-</script>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,19 @@
     <link href="sb-admin-2/css/sb-admin-2.min.css" rel="stylesheet">
     <!-- Custom styles for the project -->
     <link href="sb-admin-2/css/styles.css" rel="stylesheet">
+
+    <!-- Header.php -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-J2BAdmSaPDa4Np+KU5N8F0c2PrU5AnSIQGY76zX4HXg1i1aqPb7Z/kqI3lg6X8L5" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-+4Eys40xCxCWj5/Po0x1mTQdNlJ0lvF51oc1xA7XNH0=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
