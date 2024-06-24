@@ -28,6 +28,9 @@ function formatTanggal($tanggal) {
 
     return $tanggal_formatted;
 }
+// config/configure.php
+define('BASE_PATH', realpath(dirname(__FILE__) . '/../'));
+
 
 
 ?>
