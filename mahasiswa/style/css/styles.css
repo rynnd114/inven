@@ -1,0 +1,29 @@
+.clickable-row {
+    cursor: pointer;
+}
+
+.informatika {
+    background-color: red; /* Merah untuk Informatika */
+    color: white;
+}
+
+.sistem-informasi {
+    background-color: blue; /* Biru untuk Sistem Informasi */
+    color: white;
+}
+
+.arsitektur {
+    background-color: orange; /* Oranye untuk Arsitektur */
+    color: black;
+}
+
+.sipil {
+    background-color: yellow; /* Kuning untuk Sipil */
+    color: black;
+}
+
+.teknik-kimia {
+    background-color: purple; /* Ungu untuk Teknik Kimia */
+    color: white;
+}
+

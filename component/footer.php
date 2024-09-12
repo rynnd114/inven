@@ -37,5 +37,6 @@
     
     <!-- Custom scripts for the project -->
     <script src="style/js/scripts.js"></script>
+    
 </body>
 </html>

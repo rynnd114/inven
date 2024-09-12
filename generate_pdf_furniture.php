@@ -2,7 +2,6 @@
 require 'vendor/autoload.php'; // Pastikan path ke autoload.php sesuai dengan struktur proyek Anda
 require 'config/database.php';
 require 'config/configure.php';
-require 'middleware.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -36,6 +35,7 @@ ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,21 +45,28 @@ ob_start();
         body {
             font-family: Arial, sans-serif;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid black;
             padding: 8px;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         .barcode {
             width: 200px;
         }
+
         .img-thumbnail {
             width: 100px;
             height: auto;
@@ -67,9 +74,14 @@ ob_start();
         }
     </style>
 </head>
+
 <body>
     <h1>Furniture Details</h1>
     <table>
+        <tr>
+            <th>ID</th>
+            <td><?php echo htmlspecialchars($furniture['id']); ?></td>
+        </tr>
         <tr>
             <th>Nama Furniture</th>
             <td><?php echo htmlspecialchars($furniture['nama_furniture']); ?></td>
@@ -79,8 +91,8 @@ ob_start();
             <td><?php echo htmlspecialchars($furniture['merk']); ?></td>
         </tr>
         <tr>
-            <th>Jumlah</th>
-            <td><?php echo htmlspecialchars($furniture['jumlah']); ?></td>
+            <th>Kondisi</th>
+            <td><?php echo htmlspecialchars($furniture['kondisi']); ?></td>
         </tr>
         <tr>
             <th>Keterangan</th>
@@ -99,21 +111,21 @@ ob_start();
                 <th>Update Date</th>
                 <th>Nama Furniture</th>
                 <th>Merk</th>
-                <th>Jumlah</th>
+                <th>Kondisi</th>
                 <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($updateHistory as $history): ?>
+            <?php foreach ($updateHistory as $history) : ?>
                 <tr>
                     <td><?php echo htmlspecialchars(formatTanggal($history['changed_at'])); ?></td>
                     <td><?php echo htmlspecialchars($history['nama_furniture']); ?></td>
                     <td><?php echo htmlspecialchars($history['merk']); ?></td>
-                    <td><?php echo htmlspecialchars($history['jumlah']); ?></td>
+                    <td><?php echo htmlspecialchars($history['kondisi']); ?></td>
                     <td><?php echo htmlspecialchars($history['keterangan']); ?></td>
                 </tr>
             <?php endforeach; ?>
-            <?php if (empty($updateHistory)): ?>
+            <?php if (empty($updateHistory)) : ?>
                 <tr>
                     <td colspan="7">No update history available.</td>
                 </tr>
@@ -121,6 +133,7 @@ ob_start();
         </tbody>
     </table>
 </body>
+
 </html>
 <?php
 $html = ob_get_clean();

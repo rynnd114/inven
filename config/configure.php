@@ -1,6 +1,7 @@
 <?php
 // Fungsi untuk mengubah format tanggal
-function formatTanggal($tanggal) {
+function formatTanggal($tanggal)
+{
     // Buat array dengan nama hari dalam bahasa Indonesia
     $nama_hari = array(
         "Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"
@@ -31,6 +32,35 @@ function formatTanggal($tanggal) {
 // config/configure.php
 define('BASE_PATH', realpath(dirname(__FILE__) . '/../'));
 
+// Set timezone to WITA
+date_default_timezone_set('Asia/Makassar');
+
+// Debugging: Tampilkan waktu saat ini
+$currentDateTime = date('Y-m-d H:i');
+
+// Ambil waktu dan tanggal saat ini
+$currentDateTime = (new DateTime())->format('Y-m-d H:i:s');
+
+// Update status to "Ditolak" if the start time has passed and the booking is still pending
+$updateQuery = "UPDATE lab_bookings 
+                SET status = 'Ditolak', keterangan = 'Silahkan Ajukan Kembali' 
+                WHERE status = 'Menunggu Persetujuan Laboran' 
+                AND (CONCAT(hari_tanggal_mulai, ' ', waktu_mulai) < ?)";
+$stmt = $pdo->prepare($updateQuery);
+$updateSuccess = $stmt->execute([$currentDateTime]);
+
+// Update status to "Selesai" if the end time has passed and the booking is still approved
+$doneQuery = "UPDATE lab_bookings 
+              SET status = 'Selesai' 
+              WHERE status = 'Disetujui' 
+              AND (CONCAT(hari_tanggal_selesai, ' ', waktu_selesai) < ?)";
+$stmt = $pdo->prepare($doneQuery);
+$doneSuccess = $stmt->execute([$currentDateTime]);
+
+// Fetch updated bookings
+$bookings = $pdo->query("SELECT lb.*, u.name AS mahasiswa_name 
+                         FROM lab_bookings lb 
+                         JOIN users u ON lb.nim = u.nim")
+                 ->fetchAll(PDO::FETCH_ASSOC);
 
 
-?>

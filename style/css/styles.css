@@ -1,3 +1,29 @@
 .clickable-row {
     cursor: pointer;
 }
+
+
+.informatika {
+    background-color: red;
+    color: white;
+}
+
+.sistem-informasi {
+    background-color: blue;
+    color: white;
+}
+
+.arsitektur {
+    background-color: orange;
+    color: black;
+}
+
+.sipil {
+    background-color: yellow;
+    color: black;
+}
+
+.teknik-kimia {
+    background-color: purple;
+    color: white;
+}

@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit4c9a42706ae585541952a094714e3b3a
 {
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Tests\\PhpOffice\\Math\\' => 21,
+        ),
         'S' => 
         array (
             'Svg\\' => 4,
@@ -15,6 +19,8 @@ class ComposerStaticInit4c9a42706ae585541952a094714e3b3a
         'P' => 
         array (
             'Picqer\\Barcode\\' => 15,
+            'PhpOffice\\PhpWord\\' => 18,
+            'PhpOffice\\Math\\' => 15,
         ),
         'M' => 
         array (
@@ -31,6 +37,10 @@ class ComposerStaticInit4c9a42706ae585541952a094714e3b3a
     );
 
     public static $prefixDirsPsr4 = array (
+        'Tests\\PhpOffice\\Math\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/math/tests/Math',
+        ),
         'Svg\\' => 
         array (
             0 => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg',
@@ -42,6 +52,14 @@ class ComposerStaticInit4c9a42706ae585541952a094714e3b3a
         'Picqer\\Barcode\\' => 
         array (
             0 => __DIR__ . '/..' . '/picqer/php-barcode-generator/src',
+        ),
+        'PhpOffice\\PhpWord\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpword/src/PhpWord',
+        ),
+        'PhpOffice\\Math\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/math/src/Math',
         ),
         'Masterminds\\' => 
         array (
