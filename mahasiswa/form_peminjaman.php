@@ -73,8 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php elseif (isset($error)) : ?>
         <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php endif; ?>
-    <form method="post" action="form_peminjaman.php" onsubmit="return validateForm()">
-        <div class="form-group">
+    <form id="formPeminjaman" method="post" action="form_peminjaman.php" onsubmit="return validateForm()">
+    <div class="form-group">
             <label for="nama_kegiatan">Nama Kegiatan</label>
             <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" required>
         </div>
@@ -205,8 +205,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <input type="hidden" id="periode_peminjaman" name="periode_peminjaman">
         <button type="submit" class="btn btn-primary">Ajukan Peminjaman</button>
+        <button type="button" class="btn btn-success" onclick="downloadWord()">Download Dokumen Word</button>
+
     </form>
 </div>
+
+<script>
+function downloadWord() {
+    var form = document.getElementById('formPeminjaman');
+
+    // Buat form baru untuk mengirimkan data
+    var newForm = new FormData(form);
+
+    // Kirim permintaan menggunakan fetch untuk download.php
+    fetch('download.php', {
+        method: 'POST',
+        body: newForm
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        // Buat URL untuk download file
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'Peminjaman_Lab.docx'; // Nama file yang akan diunduh
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
 
 <script>
     document.getElementById('jenis_peminjaman').addEventListener('change', function() {
