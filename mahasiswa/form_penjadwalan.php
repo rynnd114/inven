@@ -45,8 +45,8 @@ if (!isset($_SESSION['nim']) || $_SESSION['role'] !== 'mahasiswa') {
                         <div class="form-group">
                             <label for="ruangan2">Ruangan 2:</label>
                             <select class="form-control" name="ruangan2" id="ruangan2" required>
-                                <option value="D203">D203</option>
                                 <option value="D208">D208</option>
+                                <option value="D203">D203</option>
                                 <option value="Lab. Komputasi">Lab. Komputasi</option>
                             </select>
                         </div>

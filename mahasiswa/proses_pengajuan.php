@@ -21,7 +21,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Ambil data dari form
-// Ambil data dari form
 $hari = $_POST['hari'];
 $ruangan1 = $_POST['ruangan1']; // Bisa berupa array
 $ruangan2 = $_POST['ruangan2']; // Bisa berupa array
@@ -87,9 +86,8 @@ if ($jam_awal_index !== false && $jam_awal_index + 1 < count($timeSlots)) {
         $check_result = $stmt->get_result();
 
         if ($check_result->num_rows > 0) {
-            echo "Jadwal sudah ada untuk ruangan 1 atau 2, silakan pilih waktu atau ruangan yang lain.";
-            $stmt->close();
-            $conn->close();
+            // Redirect dengan pesan error
+            header("Location: form_penjadwalan.php?status=error&message=Jadwal sudah ada untuk ruangan 1 atau 2, silakan pilih waktu atau ruangan yang lain.");
             exit;
         }
 
@@ -100,27 +98,25 @@ if ($jam_awal_index !== false && $jam_awal_index + 1 < count($timeSlots)) {
         // Insert pertama
         $stmt->bind_param("sssssssss", $hari, $ruangan1, $ruangan2, $jam_awal, $kegiatan, $angkatan, $kelas1, $kelas2, $prodi);
         if (!$stmt->execute()) {
-            echo "Error: " . $stmt->error;
-            $stmt->close();
-            $conn->close();
+            header("Location: form_penjadwalan.php?status=error&message=Error: " . $stmt->error);
             exit;
         }
 
         // Insert kedua
         $stmt->bind_param("sssssssss", $hari, $ruangan1, $ruangan2, $jam_akhir, $kegiatan, $angkatan, $kelas1, $kelas2, $prodi);
         if (!$stmt->execute()) {
-            echo "Error: " . $stmt->error;
+            header("Location: form_penjadwalan.php?status=error&message=Error: " . $stmt->error);
         } else {
-            echo "Pengajuan berhasil diajukan untuk ruangan $ruangan1 dan $ruangan2!";
+            header("Location: list_penjadwalan.php?status=success&message=Pengajuan berhasil diajukan untuk ruangan $ruangan1 dan $ruangan2!");
         }
-
 
         $stmt->close();
     } else {
-        echo "Gagal mendapatkan data prodi pengguna.";
+        header("Location: form_penjadwalan.php?status=error&message=Gagal mendapatkan data prodi pengguna.");
     }
 } else {
-    echo "Waktu yang dipilih tidak valid.";
+    header("Location: form_penjadwalan.php?status=error&message=Waktu yang dipilih tidak valid.");
 }
 
 $conn->close();
+?>
