@@ -9,6 +9,7 @@ require '../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Ambil data dari form
+    // Ambil data dari form
     $jenis_peminjaman = $_POST['jenis_peminjaman'];
     $nim = $_SESSION['nim'];
     $nama_kegiatan = $_POST['nama_kegiatan'];
@@ -17,50 +18,94 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $waktu_mulai = $_POST['waktu_mulai'];
     $waktu_selesai = $_POST['waktu_selesai'];
     $jumlah_peserta = $_POST['jumlah_peserta'];
-    $periode_peminjaman = $_POST['periode_peminjaman'];
     $jenis_ruangan = $_POST['jenis_ruangan'];
-    $fasilitas = $_POST['fasilitas'];
+
+    // Gabungkan array 'fasilitas' menjadi string
+    $fasilitas = isset($_POST['fasilitas']) ? implode(', ', $_POST['fasilitas']) : '';
+
     $tanggal_pengambilan = $_POST['tanggal_pengambilan'];
     $tanggal_pengembalian = $_POST['tanggal_pengembalian'];
-    
+
+    // Proses upload file
+    $file_pengajuan = $_FILES['file_pengajuan'];
     $start_date = new DateTime($hari_tanggal_mulai);
     $end_date = new DateTime($hari_tanggal_selesai);
     $interval = $start_date->diff($end_date);
     $periode_peminjaman = $interval->days + 1; // Menambahkan 1 hari untuk periode inklusif
-    // Simpan ke database
-    try {
-        $pdo->beginTransaction();
 
-        $stmt = $pdo->prepare("
+    // Validasi file upload
+    if ($file_pengajuan['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $file_pengajuan['tmp_name'];
+        $file_name = $file_pengajuan['name'];
+        $file_size = $file_pengajuan['size'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        $allowed_ext = ['pdf'];
+
+        if (in_array($file_ext, $allowed_ext)) {
+            $upload_dir = 'uploads/'; // Pastikan direktori ini ada
+            $file_path = $upload_dir . uniqid() . '.' . $file_ext;
+
+            if (move_uploaded_file($file_tmp, $file_path)) {
+                // File berhasil diunggah
+                $file_pengajuan_url = $file_path;
+            } else {
+                $error = "Terjadi kesalahan saat mengunggah file.";
+            }
+        } else {
+            $error = "Format file tidak didukung. Harap unggah file dalam format PDF";
+        }
+    } else {
+        $error = "Terjadi kesalahan saat mengunggah file.";
+    }
+
+    if (!isset($error)) {
+        // Simpan data ke database
+        try {
+            $pdo->beginTransaction();
+
+            $stmt = $pdo->prepare("
             INSERT INTO lab_bookings (
                 nim, nama_kegiatan, hari_tanggal_mulai, hari_tanggal_selesai, waktu_mulai, waktu_selesai,
                 jumlah_peserta, periode_peminjaman, jenis_ruangan, fasilitas, tanggal_pengambilan, tanggal_pengembalian, 
-                jenis_peminjaman, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Menunggu Persetujuan Laboran')
+                jenis_peminjaman, file_pengajuan, status
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Menunggu Persetujuan Laboran')
         ");
-        $stmt->execute([
-            $nim, $nama_kegiatan, $hari_tanggal_mulai, $hari_tanggal_selesai, $waktu_mulai, $waktu_selesai,
-            $jumlah_peserta, $periode_peminjaman, $jenis_ruangan, $fasilitas, $tanggal_pengambilan, $tanggal_pengembalian,
-            $jenis_peminjaman
-        ]);
+            $stmt->execute([
+                $nim,
+                $nama_kegiatan,
+                $hari_tanggal_mulai,
+                $hari_tanggal_selesai,
+                $waktu_mulai,
+                $waktu_selesai,
+                $jumlah_peserta,
+                $periode_peminjaman,
+                $jenis_ruangan,
+                $fasilitas,
+                $tanggal_pengambilan,
+                $tanggal_pengembalian,
+                $jenis_peminjaman,
+                $file_pengajuan_url
+            ]);
 
-        $lab_booking_id = $pdo->lastInsertId();
+            $lab_booking_id = $pdo->lastInsertId();
 
-        if ($jenis_peminjaman === 'berulang') {
-            $days = $_POST['days'];
-            foreach ($days as $day) {
-                $stmt = $pdo->prepare("INSERT INTO lab_booking_days (lab_booking_id, day_of_week) VALUES (?, ?)");
-                $stmt->execute([$lab_booking_id, $day]);
+            if ($jenis_peminjaman === 'berulang') {
+                $days = $_POST['days'];
+                foreach ($days as $day) {
+                    $stmt = $pdo->prepare("INSERT INTO lab_booking_days (lab_booking_id, day_of_week) VALUES (?, ?)");
+                    $stmt->execute([$lab_booking_id, $day]);
+                }
             }
-        }
 
-        $pdo->commit();
-        $success = "Permintaan peminjaman telah diajukan dan menunggu persetujuan laboran.";
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        $error = "Terjadi kesalahan saat memproses peminjaman: " . $e->getMessage();
+            $pdo->commit();
+            $success = "Permintaan peminjaman telah diajukan dan menunggu persetujuan laboran.";
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            $error = "Terjadi kesalahan saat memproses peminjaman: " . $e->getMessage();
+        }
     }
 }
+
 
 ?>
 
@@ -73,8 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php elseif (isset($error)) : ?>
         <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php endif; ?>
-    <form id="formPeminjaman" method="post" action="form_peminjaman.php" onsubmit="return validateForm()">
-    <div class="form-group">
+    <form id="formPeminjaman" method="post" action="form_peminjaman.php" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <div class="form-group">
             <label for="nama_kegiatan">Nama Kegiatan</label>
             <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" required>
         </div>
@@ -203,6 +248,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="tanggal_pengembalian">Tanggal Pengembalian</label>
             <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian" required>
         </div>
+        <div class="form-group">
+            <label for="file_pengajuan">Upload File Pengajuan</label>
+            <input type="file" class="form-control" id="file_pengajuan" name="file_pengajuan" required>
+        </div>
         <input type="hidden" id="periode_peminjaman" name="periode_peminjaman">
         <button type="submit" class="btn btn-primary">Ajukan Peminjaman</button>
         <button type="button" class="btn btn-success" onclick="downloadWord()">Download Dokumen Word</button>
@@ -211,35 +260,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 
 <script>
-function downloadWord() {
-    var form = document.getElementById('formPeminjaman');
+    function downloadWord() {
+        var form = document.getElementById('formPeminjaman');
 
-    // Buat form baru untuk mengirimkan data
-    var newForm = new FormData(form);
+        // Buat form baru untuk mengirimkan data
+        var newForm = new FormData(form);
 
-    // Kirim permintaan menggunakan fetch untuk download.php
-    fetch('download.php', {
-        method: 'POST',
-        body: newForm
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.blob();
-    })
-    .then(blob => {
-        // Buat URL untuk download file
-        var url = window.URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = 'Peminjaman_Lab.docx'; // Nama file yang akan diunduh
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    })
-    .catch(error => console.error('Error:', error));
-}
+        // Kirim permintaan menggunakan fetch untuk download.php
+        fetch('download.php', {
+                method: 'POST',
+                body: newForm
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Buat URL untuk download file
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'Peminjaman_Lab.pdf'; // Sesuaikan nama file dengan format yang tepat
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(error => console.error('Error:', error));
+    }
 </script>
 
 <script>
@@ -299,3 +348,4 @@ function downloadWord() {
 </script>
 
 <?php include '../component/footer.php'; ?>
+
