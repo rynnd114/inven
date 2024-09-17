@@ -147,23 +147,25 @@ while ($row = $result_calendar->fetch_assoc()) {
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tooltipster/dist/css/tooltipster.bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
     <style>
-    .legend {
-        display: flex;
-        flex-direction: column;
-    }
-    .legend-item {
-        margin-bottom: 5px;
-        font-size: 14px;
-    }
-    .legend-color {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-        border: 1px solid #000;
-        vertical-align: middle;
-    }
-</style>
+        .legend {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .legend-item {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border: 1px solid #000;
+            vertical-align: middle;
+        }
+    </style>
     <style>
         .ditolak {
             background-color: #dc3545 !important;
@@ -692,6 +694,22 @@ while ($row = $result_calendar->fetch_assoc()) {
         <?php include '../component/footer.php'; ?>
     </div>
 
+    <?php if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
+        <script>
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Jadwal berhasil dihapus.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Menghapus session setelah Swal muncul
+                    window.history.replaceState(null, null, window.location.pathname);
+                }
+            });
+        </script>
+        <?php unset($_SESSION['delete_success']); // Hapus session setelah menampilkan alert ?>
+    <?php endif; ?>
 </body>
 
 </html>

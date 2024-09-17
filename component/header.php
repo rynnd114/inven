@@ -24,6 +24,7 @@ $name = $_SESSION['name'] ?? 'Guest';
     <link href="style/assets/vendor/aos/aos.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.0/dist/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tooltipster/dist/css/tooltipster.bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
     <style>
@@ -179,6 +180,13 @@ $name = $_SESSION['name'] ?? 'Guest';
         <i class="fas fa-fw fa-list"></i>
         <span>Status Peminjaman</span></a>
 </li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/inven/mahasiswa/list_penjadwalan.php">
+        <i class="fas fa-fw fa-list"></i>
+        <span>List Penjadwalan</span></a>
+</li>
+
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room1Collapse" aria-expanded="true" aria-controls="room1Collapse">
         <i class="fas fa-fw fa-door-open"></i>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 11, 2024 at 05:55 AM
+-- Generation Time: Sep 13, 2024 at 09:12 AM
 -- Server version: 8.0.30
--- PHP Version: 8.3.8
+-- PHP Version: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -75,6 +75,41 @@ CREATE TABLE `furniture_history` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jadwal_lab`
+--
+
+CREATE TABLE `jadwal_lab` (
+  `id` int NOT NULL,
+  `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat') NOT NULL,
+  `waktu` varchar(20) NOT NULL,
+  `kegiatan` varchar(255) DEFAULT NULL,
+  `angkatan` varchar(10) DEFAULT NULL,
+  `prodi` varchar(20) DEFAULT NULL,
+  `ruangan1` enum('D208','D203','Lab. Komputasi') NOT NULL,
+  `ruangan2` enum('D208','D203','Lab. Komputasi') NOT NULL,
+  `kelas1` varchar(10) NOT NULL,
+  `kelas2` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `jadwal_lab`
+--
+
+INSERT INTO `jadwal_lab` (`id`, `hari`, `waktu`, `kegiatan`, `angkatan`, `prodi`, `ruangan1`, `ruangan2`, `kelas1`, `kelas2`) VALUES
+(60, 'Senin', '07.30 - 08.30', 'RPL', '23', 'IF', 'D203', 'D208', 'A1', 'A2'),
+(61, 'Senin', '08.30 - 09.30', 'RPL', '23', 'IF', 'D203', 'D208', 'A1', 'A2'),
+(64, 'Rabu', '14.30 - 15.30', 'UR', '22', 'IF', 'D203', 'D208', 'C1', 'C2'),
+(65, 'Rabu', '15.30 - 16.30', 'UR', '22', 'IF', 'D203', 'D208', 'C1', 'C2'),
+(66, 'Selasa', '07.30 - 08.30', 'Robotik', '22', 'IF', 'D203', 'D208', 'B1', 'B2'),
+(67, 'Selasa', '08.30 - 09.30', 'Robotik', '22', 'IF', 'D203', 'D208', 'B1', 'B2'),
+(68, 'Selasa', '10.30 - 11.30', 'Robotik', '22', 'IF', 'D203', 'D208', 'C1', 'C2'),
+(69, 'Selasa', '11.30 - 12.30', 'Robotik', '22', 'IF', 'D203', 'D208', 'C1', 'C2'),
+(70, 'Jumat', '09.30 - 10.30', 'UI UX', '19', 'Arsitektur', 'D203', 'D208', 'C', 'C'),
+(71, 'Jumat', '10.30 - 11.30', 'UI UX', '19', 'Arsitektur', 'D203', 'D208', 'C', 'C');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `laboran_kalab`
 --
 
@@ -130,9 +165,10 @@ CREATE TABLE `lab_bookings` (
 
 INSERT INTO `lab_bookings` (`id`, `nim`, `nama_kegiatan`, `hari_tanggal_mulai`, `hari_tanggal_selesai`, `waktu_mulai`, `waktu_selesai`, `jumlah_peserta`, `periode_peminjaman`, `jenis_ruangan`, `fasilitas`, `tanggal_pengambilan`, `tanggal_pengembalian`, `jenis_peminjaman`, `status`, `keterangan`, `created_at`, `updated_at`) VALUES
 (9, 2009106114, 'Kelas Desain UI UX', '2024-09-05', '2024-09-12', '15:00:00', '17:00:00', 50, 8, 'D203', 'Array', '2024-09-05', '2024-09-12', 'berulang', 'Disetujui', 'Peminjaman Lab Disetujui', '2024-09-09 04:21:34', '2024-09-09 04:26:39'),
-(10, 2009106114, '8yfv8', '2024-09-09', '2024-09-16', '13:33:00', '16:33:00', 69, 8, 'Lab Komputasi', 'Array', '2024-09-09', '2024-09-16', 'berulang', 'Menunggu Persetujuan Laboran', 'Sedang Diperiksa Oleh Laboran', '2024-09-09 04:34:01', '2024-09-09 04:34:01'),
+(10, 2009106114, '8yfv8', '2024-09-09', '2024-09-16', '13:33:00', '16:33:00', 69, 8, 'Lab Komputasi', 'Array', '2024-09-09', '2024-09-16', 'berulang', 'Ditolak', 'Silahkan Ajukan Kembali', '2024-09-09 04:34:01', '2024-09-11 08:10:42'),
 (11, 2009106114, 'uvgcj', '2024-09-16', '2024-10-07', '13:36:00', '17:36:00', 69, 22, 'Lab Komputasi', 'Array', '2024-09-09', '2024-09-30', 'berulang', 'Menunggu Persetujuan Laboran', 'Sedang Diperiksa Oleh Laboran', '2024-09-09 04:36:59', '2024-09-09 04:36:59'),
-(12, 2009106114, '76dtcm ', '2024-09-10', '2024-09-24', '12:41:00', '13:41:00', 68, 29, 'D203', 'Array', '2024-09-09', '2024-09-16', 'berulang', 'Menunggu Persetujuan Laboran', 'Sedang Diperiksa Oleh Laboran', '2024-09-09 04:41:31', '2024-09-09 04:43:49');
+(12, 2009106114, '76dtcm ', '2024-09-10', '2024-09-24', '12:41:00', '13:41:00', 68, 29, 'D203', 'Array', '2024-09-09', '2024-09-16', 'berulang', 'Ditolak', 'Silahkan Ajukan Kembali', '2024-09-09 04:41:31', '2024-09-11 08:10:42'),
+(13, 2009106114, 'Pelatihan', '2024-09-21', '2024-10-05', '16:29:00', '17:29:00', 50, 15, 'D203', 'Array', '2024-09-21', '2024-10-05', 'berulang', 'Disetujui', 'Peminjaman Lab Disetujui', '2024-09-11 08:30:25', '2024-09-11 08:34:48');
 
 -- --------------------------------------------------------
 
@@ -154,7 +190,8 @@ INSERT INTO `lab_booking_days` (`id`, `lab_booking_id`, `day_of_week`) VALUES
 (6, 9, 'Thursday'),
 (7, 10, 'Wednesday'),
 (8, 11, 'Monday'),
-(9, 12, 'Tuesday');
+(9, 12, 'Tuesday'),
+(10, 13, 'Saturday');
 
 -- --------------------------------------------------------
 
@@ -327,8 +364,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nim`, `password`, `name`, `prodi`, `alamat`, `telp`) VALUES
-(5, '2009106114', '$2y$10$v52N1ATpE1JxX4SCVvyhzOC4TuInjIul4TJ3UTUqkvtPyGjQcT1OK', 'Arya Nanda', 'Informatika', 'jalan teluk bayur', '082350680650'),
-(7, '20091061144', '$2y$10$8TW5gQp1nJ2528bxInD6Uuo2ejNB5bVyTPq8TnBMj/cFQgB8HJs/K', 'Arya Nanda', 'Informatika', 'Jalan teluk bayur depan gg. 10 samping sdn 010 no.43 kel. Mangkupalas kec.Samarinda seberang', '082350680650');
+(5, '2009106114', '$2y$10$v52N1ATpE1JxX4SCVvyhzOC4TuInjIul4TJ3UTUqkvtPyGjQcT1OK', 'Arya Nanda', 'IF', 'jalan teluk bayur', '082350680650'),
+(7, '20091061144', '$2y$10$8TW5gQp1nJ2528bxInD6Uuo2ejNB5bVyTPq8TnBMj/cFQgB8HJs/K', 'Arya Nanda', 'Informatika', 'Jalan teluk bayur depan gg. 10 samping sdn 010 no.43 kel. Mangkupalas kec.Samarinda seberang', '082350680650'),
+(8, '2009106115', '$2y$10$8M7T1ur3aFtEPeGTryewqOVWBlfIkyPbaCsUPm4PxigEnEUAHh8D2', 'Nanda', 'Arsitektur', 'fefe', '08');
 
 --
 -- Indexes for dumped tables
@@ -346,6 +384,12 @@ ALTER TABLE `furniture`
 ALTER TABLE `furniture_history`
   ADD PRIMARY KEY (`id`),
   ADD KEY `furniture_id` (`furniture_id`);
+
+--
+-- Indexes for table `jadwal_lab`
+--
+ALTER TABLE `jadwal_lab`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `laboran_kalab`
@@ -405,6 +449,12 @@ ALTER TABLE `furniture_history`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `jadwal_lab`
+--
+ALTER TABLE `jadwal_lab`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+
+--
 -- AUTO_INCREMENT for table `laboran_kalab`
 --
 ALTER TABLE `laboran_kalab`
@@ -414,13 +464,13 @@ ALTER TABLE `laboran_kalab`
 -- AUTO_INCREMENT for table `lab_bookings`
 --
 ALTER TABLE `lab_bookings`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `lab_booking_days`
 --
 ALTER TABLE `lab_booking_days`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `laptops`
@@ -438,7 +488,7 @@ ALTER TABLE `laptop_history`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
