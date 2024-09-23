@@ -146,8 +146,7 @@ if (isset($_GET['id'])) {
 
 
         // Simpan dokumen Word sementara
-        $timestamp = time(); // Mendapatkan timestamp saat ini
-        $wordFileName = "Peminjaman_Lab_{$nim}_{$timestamp}.docx"; // Tambahkan timestamp
+        $wordFileName = "Peminjaman_Lab_{$nim}.docx";
         $templateProcessor->saveAs($wordFileName);
 
         // Konversi Word ke PDF menggunakan Ilovepdf
@@ -157,7 +156,7 @@ if (isset($_GET['id'])) {
         try {
             $myTask->execute();
             $outputDirectory = 'downloads'; // Pastikan folder ini ada dan memiliki izin tulis
-            $pdfFileName = "Peminjaman_Lab_{$nim}_{$timestamp}.pdf"; // Tambahkan timestamp
+            $pdfFileName = "Peminjaman_Lab_{$nim}.pdf";
             $myTask->download($outputDirectory);
 
             if (file_exists($wordFileName)) {

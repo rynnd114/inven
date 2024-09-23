@@ -10,7 +10,8 @@ require '../config/configure.php';
 $nim = $_SESSION['nim'];
 
 // Fungsi untuk mengubah hari ke bahasa Indonesia
-function hariIndonesia($day) {
+function hariIndonesia($day)
+{
     $hari = [
         'Sunday' => 'Minggu',
         'Monday' => 'Senin',
@@ -77,6 +78,7 @@ $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th>Tanggal Pengembalian</th>
                     <th>Status</th>
                     <th>Keterangan</th>
+                    <th>Download</th> <!-- Kolom tambahan untuk tombol download -->
                 </tr>
             </thead>
             <tbody>
@@ -133,6 +135,16 @@ $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                         </td>
                         <td><?php echo htmlspecialchars($booking['keterangan']); ?></td>
+                        <td>
+                            <?php if (($booking['status'] == 'Disetujui' || $booking['status'] == 'Selesai') && !empty($booking['file_persetujuan'])) : ?>
+                                <!-- Tampilkan tombol download jika statusnya Disetujui dan ada file persetujuan -->
+                                <a href="../pegawai/kalab/<?php echo ($booking['file_persetujuan']); ?>" class="btn btn-success btn-sm" download>Download File Persetujuan</a>
+                            <?php else : ?>
+                                <!-- Jika belum disetujui atau tidak ada file, tidak ada tombol download -->
+                                <span class="text-muted">Belum tersedia</span>
+                            <?php endif; ?>
+                        </td>
+
                     </tr>
                 <?php
                     $counter++;

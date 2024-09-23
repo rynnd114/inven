@@ -63,12 +63,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         try {
             $pdo->beginTransaction();
 
+            // Mengambil nomor surat terakhir
+            $stmt = $pdo->prepare("SELECT MAX(nomor_surat) AS last_nomor_surat FROM lab_bookings");
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result && $result['last_nomor_surat'] !== null) {
+                // Jika ada nomor surat sebelumnya, tambahkan 1
+                $lastNomorSurat = $result['last_nomor_surat'];
+                $nomor_surat = $lastNomorSurat + 1;
+            } else {
+                // Jika belum ada, mulai dari 13
+                $nomor_surat = 13;
+            }
+
             $stmt = $pdo->prepare("
             INSERT INTO lab_bookings (
                 nim, nama_kegiatan, hari_tanggal_mulai, hari_tanggal_selesai, waktu_mulai, waktu_selesai,
                 jumlah_peserta, periode_peminjaman, jenis_ruangan, fasilitas, tanggal_pengambilan, tanggal_pengembalian, 
-                jenis_peminjaman, file_pengajuan, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Menunggu Persetujuan Laboran')
+                jenis_peminjaman, file_pengajuan, nomor_surat, status
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Menunggu Persetujuan Laboran')
         ");
             $stmt->execute([
                 $nim,
@@ -84,7 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $tanggal_pengambilan,
                 $tanggal_pengembalian,
                 $jenis_peminjaman,
-                $file_pengajuan_url
+                $file_pengajuan_url,
+                $nomor_surat // Nomor surat yang baru
             ]);
 
             $lab_booking_id = $pdo->lastInsertId();
@@ -175,14 +190,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="col-sm-4">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="D203" name="jenis_ruangan" value="D203" required>
-                        <label class="form-check-label" for="D203">D203</label>
+                        <input class="form-check-input" type="radio" id="lab_D203" name="jenis_ruangan" value="Lab D203" required>
+                        <label class="form-check-label" for="lab_D203">Lab D203</label>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="D208" name="jenis_ruangan" value="D208" required>
-                        <label class="form-check-label" for="D208">D208</label>
+                        <input class="form-check-input" type="radio" id="lab_D208" name="jenis_ruangan" value="Lab D208" required>
+                        <label class="form-check-label" for="lab_D208">Lab D208</label>
                     </div>
                 </div>
             </div>
@@ -249,12 +264,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian" required>
         </div>
         <div class="form-group">
-            <label for="file_pengajuan">Upload File Pengajuan</label>
+            <label for="file_pengajuan">Upload Surat Pengajuan</label>
             <input type="file" class="form-control" id="file_pengajuan" name="file_pengajuan" required>
         </div>
         <input type="hidden" id="periode_peminjaman" name="periode_peminjaman">
         <button type="submit" class="btn btn-primary">Ajukan Peminjaman</button>
-        <button type="button" class="btn btn-success" onclick="downloadWord()">Download Dokumen Word</button>
+        <button type="button" class="btn btn-success" onclick="downloadWord()">Download Surat Pengajuan</button>
 
     </form>
 </div>
@@ -348,4 +363,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </script>
 
 <?php include '../component/footer.php'; ?>
-

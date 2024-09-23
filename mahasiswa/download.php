@@ -33,6 +33,18 @@ if ($result->num_rows > 0) {
     echo "Data pengguna tidak ditemukan.";
     exit;
 }
+// Mengambil nomor surat terakhir
+$stmt = $pdo->prepare("SELECT MAX(nomor_surat) AS last_nomor_surat FROM lab_bookings");
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($result && $result['last_nomor_surat'] !== null) {
+    $lastNomorSurat = $result['last_nomor_surat'];
+    $nomor_surat = $lastNomorSurat + 1;
+} else {
+    $nomor_surat = 13;
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Mengambil data dari inputan pengguna
@@ -48,9 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fasilitas = implode(", ", $_POST['fasilitas']);
     $tanggal_pengambilan = $_POST['tanggal_pengambilan'];
     $tanggal_pengembalian = $_POST['tanggal_pengembalian'];
-    
+
     // Konversi tanggal ke format Indonesia
-    function hariIndonesia($day) {
+    function hariIndonesia($day)
+    {
         $hari = [
             'Sunday' => 'Minggu',
             'Monday' => 'Senin',
@@ -62,11 +75,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ];
         return $hari[$day];
     }
+    function bulanRomawi($bulan)
+    {
+        $romawi = [
+            1 => 'I',
+            2 => 'II',
+            3 => 'III',
+            4 => 'IV',
+            5 => 'V',
+            6 => 'VI',
+            7 => 'VII',
+            8 => 'VIII',
+            9 => 'IX',
+            10 => 'X',
+            11 => 'XI',
+            12 => 'XII'
+        ];
+
+        return $romawi[$bulan];
+    }
+
+    $bulan = date('n'); // Mengambil bulan dalam bentuk angka (1-12)
+    $tahun = date('Y'); // Mengambil tahun
+
+    $formatBulanTahun = bulanRomawi($bulan) . '/' . $tahun;
     $today = hariIndonesia(date('l')) . ', ' . date('d-m-Y');
     $dateMulai = new DateTime($hari_tanggal_mulai);
     $dateSelesai = new DateTime($hari_tanggal_selesai);
     $interval = $dateMulai->diff($dateSelesai);
-    $periode_peminjaman = $interval->days;
+    $periode_peminjaman = $interval->days + 1;
 
     // Load template Word
     $templateProcessor = new TemplateProcessor('template.docx'); // Ganti dengan path template Anda
@@ -88,6 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $templateProcessor->setValue('tanggal_pengambilan', hariIndonesia(date('l', strtotime($tanggal_pengambilan))) . ', ' . date('d-m-Y', strtotime($tanggal_pengambilan)));
     $templateProcessor->setValue('tanggal_pengembalian', hariIndonesia(date('l', strtotime($tanggal_pengembalian))) . ', ' . date('d-m-Y', strtotime($tanggal_pengembalian)));
     $templateProcessor->setValue('tanggal_hari_ini', $today);
+    $templateProcessor->setValue('bulan_tahun', $formatBulanTahun);
+    $templateProcessor->setValue('nomor_surat', $nomor_surat);
 
     // Simpan dokumen Word sementara
     $wordFileName = "Peminjaman_Lab_{$nim}.docx";
@@ -124,4 +163,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
     echo "Form tidak disubmit dengan benar.";
 }
-?>

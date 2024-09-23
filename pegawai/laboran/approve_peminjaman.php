@@ -9,9 +9,10 @@ require '../../config/database.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $booking_id = $_POST['booking_id'];
     $status = $_POST['status'];
+    $no_surat = $_POST['no_surat']; // Ambil nomor surat dari input
 
-    $stmt = $pdo->prepare("UPDATE lab_bookings SET status = ?, keterangan = 'Sedang Diperiksa Oleh Kalab' WHERE id = ?");
-    $stmt->execute([$status, $booking_id]);
+    $stmt = $pdo->prepare("UPDATE lab_bookings SET status = ?, no_surat = ?, keterangan = 'Sedang Diperiksa Oleh Kalab' WHERE id = ?");
+    $stmt->execute([$status, $no_surat, $booking_id]);
 
     $success = "Status peminjaman telah diperbarui.";
 }
@@ -56,6 +57,10 @@ $bookings = $pdo->query("SELECT lb.*, u.name AS mahasiswa_name FROM lab_bookings
                     <td>
                         <form action="approve_peminjaman.php" method="post">
                             <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
+                            <div class="form-group">
+                                <label for="no_surat">Nomor Surat:</label>
+                                <input type="text" name="no_surat" required class="form-control" placeholder="Masukkan nomor surat">
+                            </div>
                             <button type="submit" name="status" value="Menunggu Persetujuan Kalab" class="btn btn-success">Kirim ke Kalab</button>
                             <button type="submit" name="status" value="Ditolak" class="btn btn-danger">Tolak</button>
                         </form>

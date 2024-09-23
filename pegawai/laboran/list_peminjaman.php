@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'laboran') {
 require '../../config/database.php';
 
 // Set jumlah data per halaman
-$limit = 10;
+$limit = 5;
 
 // Ambil halaman saat ini dari parameter URL (default ke 1 jika tidak ada)
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -25,7 +25,8 @@ $query->execute();
 $bookings = $query->fetchAll(PDO::FETCH_ASSOC);
 
 // Fungsi untuk mengubah nama hari ke bahasa Indonesia
-function hariIndonesia($day) {
+function hariIndonesia($day)
+{
     $hari = [
         'Sunday' => 'Minggu',
         'Monday' => 'Senin',
@@ -61,7 +62,8 @@ function hariIndonesia($day) {
                     <th>Tanggal Pengembalian</th>
                     <th>Status</th>
                     <th>Keterangan</th>
-                    <th>Unduh Word</th>
+                    <th>Download Surat Pengajuan</th>
+                    <th>Download Surat Persetujuan</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,6 +87,8 @@ function hariIndonesia($day) {
 
                     $tanggal_pengembalian = new DateTime($booking['tanggal_pengembalian']);
                     $tanggal_pengembalian_formatted = hariIndonesia($tanggal_pengembalian->format('l')) . ', ' . $tanggal_pengembalian->format('d-m-Y');
+
+                    $file_pengajuan = $booking['file_pengajuan']; // Kolom untuk file yang sudah diupload Kepala Desa
                 ?>
                     <tr>
                         <td><?php echo $counter; ?></td>
@@ -111,21 +115,29 @@ function hariIndonesia($day) {
                                 case 'Selesai':
                                     echo '<span class="badge badge-success">' . htmlspecialchars($booking['status']) . '</span>';
                                     break;
-                                case 'Menunggu Persetujuan Laboran':
-                                    echo '<span class="badge badge-warning">' . htmlspecialchars($booking['status']) . '</span>';
-                                    break;
                                 default:
-                                    echo '<span class="badge badge-secondary">' . htmlspecialchars($booking['status']) . '</span>';
+                                    echo '<span class="badge badge-warning">' . htmlspecialchars($booking['status']) . '</span>';
                                     break;
                             }
                             ?>
                         </td>
                         <td><?php echo htmlspecialchars($booking['keterangan']); ?></td>
                         <td>
-                            <?php if ($booking['status'] == 'Menunggu Persetujuan Laboran') : ?>
-                                <a href="download_word.php?id=<?php echo $booking['id']; ?>" class="btn btn-secondary">Unduh Word</a>
+                            <?php if (($booking['status'] == 'Disetujui' || $booking['status'] == 'Selesai') && !empty($booking['file_pengajuan'])) : ?>
+                                <!-- Tampilkan tombol download jika statusnya Disetujui dan ada file persetujuan -->
+                                <a href="../../mahasiswa/<?php echo ($booking['file_pengajuan']); ?>" class="btn btn-success btn-sm" download>Download File Pengajuan</a>
                             <?php else : ?>
-                                <span class="text-muted">Tidak Tersedia</span>
+                                <!-- Jika belum disetujui atau tidak ada file, tidak ada tombol download -->
+                                <span class="text-muted">Belum tersedia</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if (($booking['status'] == 'Disetujui' || $booking['status'] == 'Selesai') && !empty($booking['file_persetujuan'])) : ?>
+                                <!-- Tampilkan tombol download jika statusnya Disetujui dan ada file persetujuan -->
+                                <a href="../kalab/<?php echo ($booking['file_persetujuan']); ?>" class="btn btn-success btn-sm" download>Download File Persetujuan</a>
+                            <?php else : ?>
+                                <!-- Jika belum disetujui atau tidak ada file, tidak ada tombol download -->
+                                <span class="text-muted">Belum tersedia</span>
                             <?php endif; ?>
                         </td>
                     </tr>

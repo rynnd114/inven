@@ -24,7 +24,8 @@ $query->bindParam(':offset', $offset, PDO::PARAM_INT);
 $query->execute();
 $bookings = $query->fetchAll(PDO::FETCH_ASSOC);
 
-function hariIndonesia($day) {
+function hariIndonesia($day)
+{
     $hari = [
         'Sunday' => 'Minggu',
         'Monday' => 'Senin',
@@ -60,6 +61,8 @@ function hariIndonesia($day) {
                     <th>Tanggal Pengembalian</th>
                     <th>Status</th>
                     <th>Keterangan</th>
+                    <th>Download Surat Pengajuan</th>
+                    <th>Download Surat Persetujuan</th>
                 </tr>
             </thead>
             <tbody>
@@ -119,6 +122,24 @@ function hariIndonesia($day) {
                             ?>
                         </td>
                         <td><?php echo htmlspecialchars($booking['keterangan']); ?></td>
+                        <td>
+                            <?php if (($booking['status'] == 'Disetujui' || $booking['status'] == 'Selesai') && !empty($booking['file_pengajuan'])) : ?>
+                                <!-- Tampilkan tombol download jika statusnya Disetujui dan ada file persetujuan -->
+                                <a href="../../mahasiswa/<?php echo ($booking['file_pengajuan']); ?>" class="btn btn-success btn-sm" download>Download File Pengajuan</a>
+                            <?php else : ?>
+                                <!-- Jika belum disetujui atau tidak ada file, tidak ada tombol download -->
+                                <span class="text-muted">Belum tersedia</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if (($booking['status'] == 'Disetujui' || $booking['status'] == 'Selesai') && !empty($booking['file_persetujuan'])) : ?>
+                                <!-- Tampilkan tombol download jika statusnya Disetujui dan ada file persetujuan -->
+                                <a href="<?php echo ($booking['file_persetujuan']); ?>" class="btn btn-success btn-sm" download>Download File Persetujuan</a>
+                            <?php else : ?>
+                                <!-- Jika belum disetujui atau tidak ada file, tidak ada tombol download -->
+                                <span class="text-muted">Belum tersedia</span>
+                            <?php endif; ?>
+                        </td>
                     </tr>
                 <?php
                     $counter++;
