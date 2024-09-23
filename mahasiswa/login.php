@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['nim'] = $user['nim'];
         $_SESSION['name'] = $user['name'];
         $_SESSION['role'] = 'mahasiswa';
-        
+
         header("Location: index.php");
         exit;
     } else {
@@ -47,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <?php if (isset($error)): ?>
                                     <div class="text-danger text-center mt-3"><?php echo $error; ?></div>
                                 <?php endif; ?>
+                                <div class="text-center mt-3">
+                                    <a href="../index.php" class="btn btn-primary btn-user btn-block">Kembali ke Halaman Utama</a>
+                                </div>
                             </form>
                             <hr>
                             <div class="text-center">
@@ -62,4 +65,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php include '../component/footer_auth.php'; ?>
 </body>
+
 </html>

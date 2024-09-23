@@ -94,7 +94,7 @@ $name = $_SESSION['name'] ?? 'Guest';
             text-align: center;
             vertical-align: middle;
         }
-        
+
         .informatika {
             background-color: red;
             color: white;
@@ -119,9 +119,25 @@ $name = $_SESSION['name'] ?? 'Guest';
             background-color: purple;
             color: white;
         }
+
+        #accordionSidebar {
+            position: sticky;
+            top: 0;
+            /* Sidebar tetap menempel di bagian atas saat scroll */
+            width: 250px;
+            height: 100vh;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        #accordionSidebar .nav-link {
+            padding: 12px;
+            /* Mengurangi padding dalam link menu */
+        }
     </style>
 
-    
+
+
     <!-- Tambahkan CSS lain jika diperlukan -->
 </head>
 
@@ -156,295 +172,300 @@ $name = $_SESSION['name'] ?? 'Guest';
                 ?>
             </div>
 
-            <!-- Menu Items -->
-            <?php
-            if ($role == 'mahasiswa') {
-                echo '<li class="nav-item active">
+            <!-- Menu Items for Mahasiswa -->
+            <?php if ($role == 'mahasiswa') { ?>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>">
                     <a class="nav-link" href="/inven/mahasiswa/index.php">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span>
-    </a>
-</li>
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'form_peminjaman.php' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/inven/mahasiswa/form_peminjaman.php">
+                        <i class="fas fa-fw fa-calendar"></i>
+                        <span>Form Peminjaman</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'form_penjadwalan.php' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/inven/mahasiswa/form_penjadwalan.php">
+                        <i class="fas fa-fw fa-calendar"></i>
+                        <span>Form Penjadwalan</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'list_peminjaman.php' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/inven/mahasiswa/list_peminjaman.php">
+                        <i class="fas fa-fw fa-list"></i>
+                        <span>Status Peminjaman</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'list_penjadwalan.php' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/inven/mahasiswa/list_penjadwalan.php">
+                        <i class="fas fa-fw fa-list"></i>
+                        <span>List Penjadwalan</span>
+                    </a>
+                </li>
+
+                <!-- Room D203 -->
                 <li class="nav-item">
-    <a class="nav-link" href="/inven/mahasiswa/form_peminjaman.php">
-        <i class="fas fa-fw fa-calendar"></i>
-        <span>Form Peminjaman</span></a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="/inven/mahasiswa/form_penjadwalan.php">
-        <i class="fas fa-fw fa-calendar"></i>
-        <span>Form Penjadwalan</span></a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="/inven/mahasiswa/list_peminjaman.php">
-        <i class="fas fa-fw fa-list"></i>
-        <span>Status Peminjaman</span></a>
-</li>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room1Collapse" aria-expanded="true" aria-controls="room1Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>D203</span>
+                    </a>
+                    <div id="room1Collapse" class="collapse" aria-labelledby="headingRoom1" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/mahasiswa/D203/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/mahasiswa/D203/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-<li class="nav-item">
-    <a class="nav-link" href="/inven/mahasiswa/list_penjadwalan.php">
-        <i class="fas fa-fw fa-list"></i>
-        <span>List Penjadwalan</span></a>
-</li>
+                <!-- Room D208 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room2Collapse" aria-expanded="true" aria-controls="room2Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>D208</span>
+                    </a>
+                    <div id="room2Collapse" class="collapse" aria-labelledby="headingRoom2" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/mahasiswa/D208/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/mahasiswa/D208/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room1Collapse" aria-expanded="true" aria-controls="room1Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>D203</span>
-    </a>
-    <div id="room1Collapse" class="collapse" aria-labelledby="headingRoom1" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/mahasiswa/D203/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/mahasiswa/D203/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room2Collapse" aria-expanded="true" aria-controls="room2Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>D208</span>
-    </a>
-    <div id="room2Collapse" class="collapse" aria-labelledby="headingRoom2" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/mahasiswa/D208/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/mahasiswa/D208/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room3Collapse" aria-expanded="true" aria-controls="room3Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>Lab Komputasi</span>
-    </a>
-    <div id="room3Collapse" class="collapse" aria-labelledby="headingRoom3" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/mahasiswa/komputasi/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/mahasiswa/komputasi/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="/inven/mahasiswa/room1_electronics.php">
-        <i class="fas fa-fw fa-plug"></i>
-        <span>Electronics</span>
-    </a>
-</li>
+                <!-- Lab Komputasi -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room3Collapse" aria-expanded="true" aria-controls="room3Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>Lab Komputasi</span>
+                    </a>
+                    <div id="room3Collapse" class="collapse" aria-labelledby="headingRoom3" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/mahasiswa/komputasi/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/mahasiswa/komputasi/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-';
-            } elseif ($role == 'laboran') {
-                echo '<!-- Nav Item - Dashboard -->
-<li class="nav-item active">
+            <?php } elseif ($role == 'laboran') { ?>
+
+                <!-- Menu Items for Laboran -->
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>">
                     <a class="nav-link" href="/inven/pegawai/laboran/index.php">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span>
-    </a>
-</li>
-<li class="nav-item">
-        <a class="nav-link" href="/inven/pegawai/laboran/approve_peminjaman.php">
-            <i class="fas fa-fw fa-calendar"></i>
-            <span>Approve Peminjaman</span>
-        </a>
-    </li>
- <li class="nav-item">
-        <a class="nav-link" href="/inven/pegawai/laboran/list_peminjaman.php">
-            <i class="fas fa-fw fa-list"></i>
-            <span>Daftar Peminjaman</span>
-        </a>
-    </li>
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room1Collapse" aria-expanded="true" aria-controls="room1Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>D203</span>
-    </a>
-    <div id="room1Collapse" class="collapse" aria-labelledby="headingRoom1" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/laboran/D203/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/laboran/D203/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room2Collapse" aria-expanded="true" aria-controls="room2Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>D208</span>
-    </a>
-    <div id="room2Collapse" class="collapse" aria-labelledby="headingRoom2" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/laboran/D208/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/laboran/D208/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room3Collapse" aria-expanded="true" aria-controls="room3Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>Lab Komputasi</span>
-    </a>
-    <div id="room3Collapse" class="collapse" aria-labelledby="headingRoom3" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/laboran/komputasi/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/laboran/komputasi/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="room1_electronics.php">
-        <i class="fas fa-fw fa-plug"></i>
-        <span>Electronics</span>
-    </a>
-</li>';
-            } elseif ($role == 'kalab') {
-                echo '<li class="nav-item">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'approve_peminjaman.php' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/inven/pegawai/laboran/approve_peminjaman.php">
+                        <i class="fas fa-fw fa-calendar"></i>
+                        <span>Approve Peminjaman</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'list_peminjaman.php' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/inven/pegawai/laboran/list_peminjaman.php">
+                        <i class="fas fa-fw fa-list"></i>
+                        <span>Daftar Peminjaman</span>
+                    </a>
+                </li>
+
+                <!-- Room D203 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room1Collapse" aria-expanded="true" aria-controls="room1Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>D203</span>
+                    </a>
+                    <div id="room1Collapse" class="collapse" aria-labelledby="headingRoom1" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/laboran/D203/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/laboran/D203/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- Room D208 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room2Collapse" aria-expanded="true" aria-controls="room2Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>D208</span>
+                    </a>
+                    <div id="room2Collapse" class="collapse" aria-labelledby="headingRoom2" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/laboran/D208/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/laboran/D208/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- Lab Komputasi -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room3Collapse" aria-expanded="true" aria-controls="room3Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>Lab Komputasi</span>
+                    </a>
+                    <div id="room3Collapse" class="collapse" aria-labelledby="headingRoom3" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/laboran/komputasi/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/laboran/komputasi/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+            <?php } elseif ($role == 'kalab') { ?>
+
+                <!-- Menu Items for Kalab -->
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>">
                     <a class="nav-link" href="/inven/pegawai/kalab/index.php">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                  </li>
-                  <li class="nav-item">
-        <a class="nav-link" href="/inven/pegawai/kalab/approve_peminjaman.php">
-            <i class="fas fa-fw fa-calendar"></i>
-            <span>Approve Peminjaman</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/inven/pegawai/kalab/list_peminjaman.php">
-            <i class="fas fa-fw fa-list"></i>
-            <span>Daftar Peminjaman</span>
-        </a>
-    </li>
-                  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room1Collapse" aria-expanded="true" aria-controls="room1Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>D203</span>
-    </a>
-    <div id="room1Collapse" class="collapse" aria-labelledby="headingRoom1" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/kalab/D203/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/kalab/D203/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room2Collapse" aria-expanded="true" aria-controls="room2Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>D208</span>
-    </a>
-    <div id="room2Collapse" class="collapse" aria-labelledby="headingRoom2" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/kalab/D208/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/kalab/D208/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room3Collapse" aria-expanded="true" aria-controls="room3Collapse">
-        <i class="fas fa-fw fa-door-open"></i>
-        <span>Lab Komputasi</span>
-    </a>
-    <div id="room3Collapse" class="collapse" aria-labelledby="headingRoom3" data-parent="#accordionSidebar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/kalab/komputasi/laptop/index.php">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>Laptop</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/inven/pegawai/kalab/komputasi/furniture/index.php">
-                    <i class="fas fa-fw fa-couch"></i>
-                    <span>Furniture</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="room1_electronics.php">
-        <i class="fas fa-fw fa-plug"></i>
-        <span>Electronics</span>
-    </a>
-</li>';
-            }
-            ?>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'approve_peminjaman.php' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/inven/pegawai/kalab/approve_peminjaman.php">
+                        <i class="fas fa-fw fa-calendar"></i>
+                        <span>Approve Peminjaman</span>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'list_peminjaman.php' ? 'active' : ''; ?>">
+                    <a class="nav-link" href="/inven/pegawai/kalab/list_peminjaman.php">
+                        <i class="fas fa-fw fa-list"></i>
+                        <span>Daftar Peminjaman</span>
+                    </a>
+                </li>
+
+                <!-- Room D203 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room1Collapse" aria-expanded="true" aria-controls="room1Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>D203</span>
+                    </a>
+                    <div id="room1Collapse" class="collapse" aria-labelledby="headingRoom1" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/kalab/D203/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/kalab/D203/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- Room D208 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room2Collapse" aria-expanded="true" aria-controls="room2Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>D208</span>
+                    </a>
+                    <div id="room2Collapse" class="collapse" aria-labelledby="headingRoom2" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/kalab/D208/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/kalab/D208/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- Lab Komputasi -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#room3Collapse" aria-expanded="true" aria-controls="room3Collapse">
+                        <i class="fas fa-fw fa-door-open"></i>
+                        <span>Lab Komputasi</span>
+                    </a>
+                    <div id="room3Collapse" class="collapse" aria-labelledby="headingRoom3" data-parent="#accordionSidebar">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/kalab/komputasi/laptop/index.php">
+                                    <i class="fas fa-fw fa-laptop"></i>
+                                    <span>Laptop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inven/pegawai/kalab/komputasi/furniture/index.php">
+                                    <i class="fas fa-fw fa-couch"></i>
+                                    <span>Furniture</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+            <?php } ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -454,7 +475,6 @@ $name = $_SESSION['name'] ?? 'Guest';
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
-        <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">

@@ -47,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <?php if (isset($error)): ?>
                                     <div class="text-danger text-center mt-3"><?php echo $error; ?></div>
                                 <?php endif; ?>
+                                <div class="text-center mt-3">
+                                    <a href="../../index.php" class="btn btn-primary btn-user btn-block">Kembali ke Halaman Utama</a>
+                                </div>
                             </form>
                             <hr>
                         </div>
